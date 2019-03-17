@@ -69,7 +69,7 @@
       <Filter>Src\Math</Filter>
     </ClCompile>
     <ClCompile Include="Src\Math\Vector4.cpp">
-      <Filter>源文件</Filter>
+      <Filter>Src\Math</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
