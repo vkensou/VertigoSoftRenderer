@@ -3,11 +3,13 @@
 
 #include "header.h"
 #include "VertigoSoftRenderer.h"
+#include "Src/App/App.h"
 
 #define MAX_LOADSTRING 100
 
 // 全局变量:
 HINSTANCE hInst;                                // 当前实例
+HWND g_hWnd;
 WCHAR szTitle[MAX_LOADSTRING];                  // 标题栏文本
 WCHAR szWindowClass[MAX_LOADSTRING];            // 主窗口类名
 
@@ -50,7 +52,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             TranslateMessage(&msg);
             DispatchMessage(&msg);
         }
+		
+		auto hdc = GetDC(g_hWnd);
+		update(hdc);
+		ReleaseDC(g_hWnd, hdc);
     }
+
+	quit();
 
     return (int) msg.wParam;
 }
@@ -104,7 +112,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    {
       return FALSE;
    }
-
+   g_hWnd = hWnd;
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
 
@@ -125,6 +133,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
+	case WM_CREATE:
+		init(hInst, hWnd);
+		break;
     case WM_COMMAND:
         {
             int wmId = LOWORD(wParam);
@@ -147,6 +158,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hWnd, &ps);
             // TODO: 在此处添加使用 hdc 的任何绘图代码...
+			update(hdc);
             EndPaint(hWnd, &ps);
         }
         break;
