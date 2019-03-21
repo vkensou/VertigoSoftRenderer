@@ -10,12 +10,12 @@ public:
 
 	float x{ 0 }, y{ 0 }, z{ 0 };
 
-	Vector3 operator+(Vector3& rhs)
+	Vector3 operator+(const Vector3& rhs)
 	{
 		return Vector3(x + rhs.x, y + rhs.y, z + rhs.z);
 	}
 
-	Vector3 operator-(Vector3& rhs)
+	Vector3 operator-(const Vector3& rhs)
 	{
 		return Vector3(x - rhs.x, y - rhs.y, z - rhs.z);
 	}
@@ -35,28 +35,38 @@ public:
 private:
 };
 
-inline Vector3 operator*(float lhs, Vector3 rhs)
+inline Vector3 operator*(float lhs, const Vector3& rhs)
 {
 	return Vector3(lhs * rhs.x, lhs * rhs.y, lhs * rhs.z);
 }
 
-inline Vector3 operator*(Vector3 lhs, float rhs)
+inline Vector3 operator*(const Vector3& lhs, float rhs)
 {
 	return rhs * lhs;
 }
 
-inline Vector3 operator/(Vector3 lhs, float rhs)
+inline Vector3 operator/(const Vector3& lhs, float rhs)
 {
 	return Vector3(lhs.x / rhs, lhs.y / rhs, lhs.z / rhs);
 }
 
-bool operator==(Vector3 lhs, Vector3 rhs);
+bool operator==(const Vector3& lhs, const Vector3& rhs);
 
-inline bool operator!=(Vector3 lhs, Vector3 rhs)
+inline bool operator!=(const Vector3& lhs, const Vector3& rhs)
 {
 	return !(lhs == rhs);
 }
 
-float dot(Vector3 lhs, Vector3 rhs);
+inline Vector3 operator+(float lhs, const Vector3& rhs)
+{
+	return Vector3(lhs + rhs.x, lhs + rhs.y, lhs + rhs.z);
+}
 
-Vector3 cross(Vector3 lhs, Vector3 rhs);
+inline Vector3 operator+(const Vector3& lhs, float rhs)
+{
+	return rhs + lhs;
+}
+
+float dot(const Vector3& lhs, const Vector3& rhs);
+
+Vector3 cross(const Vector3& lhs, const Vector3& rhs);

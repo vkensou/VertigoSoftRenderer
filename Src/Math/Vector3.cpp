@@ -46,17 +46,17 @@ const Vector3 Vector3::zero = Vector3(0, 0, 0);
 
 const Vector3 Vector3::one = Vector3(1, 1, 1);
 
-bool operator==(Vector3 lhs, Vector3 rhs)
+bool operator==(const Vector3& lhs, const Vector3& rhs)
 {
 	return std::abs(lhs.x - rhs.x) < 1e-5 && std::abs(lhs.y - rhs.y) < 1e-5 && std::abs(lhs.z - rhs.z) < 1e-5;
 }
 
-float dot(Vector3 lhs, Vector3 rhs)
+float dot(const Vector3& lhs, const Vector3& rhs)
 {
 	return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
 }
 
-Vector3 cross(Vector3 lhs, Vector3 rhs)
+Vector3 cross(const Vector3& lhs, const Vector3& rhs)
 {
 	float _x = lhs.y * rhs.z - lhs.z * rhs.y;
 	float _y = lhs.z * rhs.x - lhs.x * rhs.z;
