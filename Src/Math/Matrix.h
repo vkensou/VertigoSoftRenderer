@@ -33,6 +33,8 @@ public:
 	static Matrix scale(const Vector3& s);
 	static Matrix translate(const Vector3& t);
 	static Matrix trs(const Vector3& pos, const Quaternion& q, const Vector3& s);
+	static Matrix projection(float left, float right, float bottom, float top, float near, float far);
+	static Matrix projection(float fovy, float aspect, float zNear, float zFar);
 
 private:
 };

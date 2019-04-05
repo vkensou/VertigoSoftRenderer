@@ -1,5 +1,8 @@
 #include "Matrix.h"
 
+#define _USE_MATH_DEFINES
+#include <math.h>
+
 Matrix::Matrix()
 {
 }
@@ -107,6 +110,43 @@ Matrix Matrix::trs(const Vector3& pos, const Quaternion& q, const Vector3& s)
 	m.m03 = pos.x;
 	m.m13 = pos.y;
 	m.m23 = pos.z;
+
+	return m;
+}
+
+Matrix Matrix::projection(float left, float right, float bottom, float top, float near, float far)
+{
+	float x = 2.0F * near / (right - left);
+	float y = 2.0F * near / (top - bottom);
+	float a = (right + left) / (right - left);
+	float b = (top + bottom) / (top - bottom);
+	float c = -(far + near) / (far - near);
+	float d = -(2.0F * far * near) / (far - near);
+	float e = -1.0F;
+
+	Matrix m;
+
+	m.m00 = x;	m.m01 = 0;	m.m02 = a;	m.m03 = 0;
+	m.m10 = 0;	m.m11 = y;	m.m12 = b;	m.m13 = 0;
+	m.m20 = 0;	m.m21 = 0;	m.m22 = c;	m.m23 = d;
+	m.m30 = 0;	m.m31 = 0;	m.m32 = e;	m.m33 = 0;
+
+	return m;
+}
+
+Matrix Matrix::projection(float fovy, float aspect, float zNear, float zFar)
+{
+	float cotangent, deltaZ;
+	float radians = (fovy / 2.0f) * (M_PI / 180);
+	cotangent = cos(radians) / sin(radians);
+	deltaZ = zNear - zFar;
+
+	Matrix m;
+
+	m.m00 = cotangent / aspect; m.m01 = 0.0F;      m.m02 = 0.0F;                    m.m03 = 0.0F;
+	m.m10 = 0.0F;               m.m11 = cotangent; m.m12 = 0.0F;                    m.m13 = 0.0F;
+	m.m20 = 0.0F;               m.m21 = 0.0F;      m.m22 = (zFar + zNear) / deltaZ; m.m23 = 2.0F * zNear * zFar / deltaZ;
+	m.m30 = 0.0F;               m.m31 = 0.0F;      m.m32 = -1.0F;                   m.m33 = 0.0F;
 
 	return m;
 }
