@@ -51,6 +51,9 @@
     <ClInclude Include="Src\Math\Vector4.h">
       <Filter>Src\Math</Filter>
     </ClInclude>
+    <ClInclude Include="Src\App\RenderProgram.h">
+      <Filter>Src\App</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="VertigoSoftRenderer.cpp">
@@ -70,6 +73,9 @@
     </ClCompile>
     <ClCompile Include="Src\Math\Vector4.cpp">
       <Filter>Src\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\App\RenderProgram.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
