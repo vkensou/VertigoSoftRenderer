@@ -157,6 +157,8 @@
     <ClInclude Include="Src\Math\Quaternion.h" />
     <ClInclude Include="Src\Math\Vector3.h" />
     <ClInclude Include="Src\Math\Vector4.h" />
+    <ClInclude Include="Src\Render\RenderPipeline.h" />
+    <ClInclude Include="Src\Render\Vertex.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="VertigoSoftRenderer.h" />
   </ItemGroup>
@@ -167,6 +169,7 @@
     <ClCompile Include="Src\Math\Quaternion.cpp" />
     <ClCompile Include="Src\Math\Vector3.cpp" />
     <ClCompile Include="Src\Math\Vector4.cpp" />
+    <ClCompile Include="Src\Render\RenderPipeline.cpp" />
     <ClCompile Include="VertigoSoftRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
