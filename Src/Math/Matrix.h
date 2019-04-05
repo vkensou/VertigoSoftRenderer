@@ -28,6 +28,8 @@ public:
 
 	Matrix operator*(const Matrix& rhs);
 	Vector3 operator*(const Vector3& rhs);
+	void invert();
+	Matrix getInvert();
 
 	static Matrix rotate(const Quaternion& qot);
 	static Matrix scale(const Vector3& s);

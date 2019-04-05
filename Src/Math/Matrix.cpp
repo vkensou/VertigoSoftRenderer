@@ -150,3 +150,91 @@ Matrix Matrix::projection(float fovy, float aspect, float zNear, float zFar)
 
 	return m;
 }
+
+void Matrix::invert()
+{
+	float tmp[12];
+	Matrix m = *this;
+
+	// Calculate pairs for first 8 elements (cofactors)
+	tmp[0] = m.m22 * m.m33;
+	tmp[1] = m.m32 * m.m23;
+	tmp[2] = m.m12 * m.m33;
+	tmp[3] = m.m32 * m.m13;
+	tmp[4] = m.m12 * m.m23;
+	tmp[5] = m.m22 * m.m13;
+	tmp[6] = m.m02 * m.m33;
+	tmp[7] = m.m32 * m.m03;
+	tmp[8] = m.m02 * m.m23;
+	tmp[9] = m.m22 * m.m03;
+	tmp[10] = m.m02 * m.m13;
+	tmp[11] = m.m12 * m.m03;
+
+	// Calculate first 8 elements (cofactors)
+	m00 = tmp[0] * m.m11 + tmp[3] * m.m21 + tmp[4] * m.m31;
+	m00 -= tmp[1] * m.m11 + tmp[2] * m.m21 + tmp[5] * m.m31;
+	m01 = tmp[1] * m.m01 + tmp[6] * m.m21 + tmp[9] * m.m31;
+	m01 -= tmp[0] * m.m01 + tmp[7] * m.m21 + tmp[8] * m.m31;
+	m02 = tmp[2] * m.m01 + tmp[7] * m.m11 + tmp[10] * m.m31;
+	m02 -= tmp[3] * m.m01 + tmp[6] * m.m11 + tmp[11] * m.m31;
+	m03 = tmp[5] * m.m01 + tmp[8] * m.m11 + tmp[11] * m.m21;
+	m03 -= tmp[4] * m.m01 + tmp[9] * m.m11 + tmp[10] * m.m21;
+	m10 = tmp[1] * m.m10 + tmp[2] * m.m20 + tmp[5] * m.m30;
+	m10 -= tmp[0] * m.m10 + tmp[3] * m.m20 + tmp[4] * m.m30;
+	m11 = tmp[0] * m.m00 + tmp[7] * m.m20 + tmp[8] * m.m30;
+	m11 -= tmp[1] * m.m00 + tmp[6] * m.m20 + tmp[9] * m.m30;
+	m12 = tmp[3] * m.m00 + tmp[6] * m.m10 + tmp[11] * m.m30;
+	m12 -= tmp[2] * m.m00 + tmp[7] * m.m10 + tmp[10] * m.m30;
+	m13 = tmp[4] * m.m00 + tmp[9] * m.m10 + tmp[10] * m.m20;
+	m13 -= tmp[5] * m.m00 + tmp[8] * m.m10 + tmp[11] * m.m20;
+
+	// Calculate pairs for second 8 elements (cofactors)
+	tmp[0] = m.m20*m.m31;
+	tmp[1] = m.m30*m.m21;
+	tmp[2] = m.m10*m.m31;
+	tmp[3] = m.m30*m.m11;
+	tmp[4] = m.m10*m.m21;
+	tmp[5] = m.m20*m.m11;
+	tmp[6] = m.m00*m.m31;
+	tmp[7] = m.m30*m.m01;
+	tmp[8] = m.m00*m.m21;
+	tmp[9] = m.m20*m.m01;
+	tmp[10] = m.m00*m.m11;
+	tmp[11] = m.m10*m.m01;
+
+	// Calculate second 8 elements (cofactors)
+	m20 = tmp[0] * m.m13 + tmp[3] * m.m23 + tmp[4] * m.m33;
+	m20 -= tmp[1] * m.m13 + tmp[2] * m.m23 + tmp[5] * m.m33;
+	m21 = tmp[1] * m.m03 + tmp[6] * m.m23 + tmp[9] * m.m33;
+	m21 -= tmp[0] * m.m03 + tmp[7] * m.m23 + tmp[8] * m.m33;
+	m22 = tmp[2] * m.m03 + tmp[7] * m.m13 + tmp[10] * m.m33;
+	m22 -= tmp[3] * m.m03 + tmp[6] * m.m13 + tmp[11] * m.m33;
+	m23 = tmp[5] * m.m03 + tmp[8] * m.m13 + tmp[11] * m.m23;
+	m23 -= tmp[4] * m.m03 + tmp[9] * m.m13 + tmp[10] * m.m23;
+	m30 = tmp[2] * m.m22 + tmp[5] * m.m32 + tmp[1] * m.m12;
+	m30 -= tmp[4] * m.m32 + tmp[0] * m.m12 + tmp[3] * m.m22;
+	m31 = tmp[8] * m.m32 + tmp[0] * m.m02 + tmp[7] * m.m22;
+	m31 -= tmp[6] * m.m22 + tmp[9] * m.m32 + tmp[1] * m.m02;
+	m32 = tmp[6] * m.m12 + tmp[11] * m.m32 + tmp[3] * m.m02;
+	m32 -= tmp[10] * m.m32 + tmp[2] * m.m02 + tmp[7] * m.m12;
+	m33 = tmp[10] * m.m22 + tmp[4] * m.m02 + tmp[9] * m.m12;
+	m33 -= tmp[8] * m.m12 + tmp[11] * m.m22 + tmp[5] * m.m02;
+
+	// Calculate determinant
+	float det = (m.m00*m00 + m.m10*m01 + m.m20*m02 + m.m30*m03);
+	//if (fabs_tpl(det)<0.0001f) assert(0);	
+
+	// Divide the cofactor-matrix by the determinant
+	float idet = (float)1.0 / det;
+	m00 *= idet; m01 *= idet; m02 *= idet; m03 *= idet;
+	m10 *= idet; m11 *= idet; m12 *= idet; m13 *= idet;
+	m20 *= idet; m21 *= idet; m22 *= idet; m23 *= idet;
+	m30 *= idet; m31 *= idet; m32 *= idet; m33 *= idet;
+}
+
+Matrix Matrix::getInvert()
+{
+	Matrix m = *this;
+	m.invert();
+	return m;
+}
