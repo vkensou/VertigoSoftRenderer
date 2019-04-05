@@ -5,7 +5,7 @@
 
 struct Vertex
 {
-	Vector4 position;
+	Vector3 position;
 	Vector3 normal;
 	Vector4 texcoord;
 };
