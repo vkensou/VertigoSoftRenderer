@@ -11,7 +11,17 @@ bool cullBack(Vertex *vertex)
 	return n.z < 0;
 }
 
-void drawTriangle(unsigned int* target, Vertex *v, int count)
+static unsigned int* target;
+static int width;
+static int height;
+void setTarget(unsigned int* target, int width, int height)
+{
+	::target = target;
+	::width = width;
+	::height = height;
+}
+
+void drawTriangle(Vertex *v, int count)
 {
 	for (int i = 0; i < count; i += 3)
 	{

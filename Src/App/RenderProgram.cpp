@@ -26,7 +26,8 @@ RenderProgram::~RenderProgram()
 void RenderProgram::render()
 {
 	clear();
-	drawTriangle(backBuffer, vertex, 6);
+	setTarget(backBuffer, width, height);
+	drawTriangle(vertex, 6);
 }
 
 void RenderProgram::clear()

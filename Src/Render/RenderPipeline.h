@@ -2,4 +2,5 @@
 
 struct Vertex;
 
-void drawTriangle(unsigned int* target, Vertex *v, int count);
+void setTarget(unsigned int* target, int width, int height);
+void drawTriangle(Vertex *v, int count);
