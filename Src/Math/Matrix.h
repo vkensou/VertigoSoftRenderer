@@ -1,5 +1,8 @@
 #pragma once
 
+#include "Vector3.h"
+#include "Quaternion.h"
+
 class Matrix
 {
 public:
@@ -11,17 +14,25 @@ public:
 	float m02{ 0 };
 	float m03{ 0 };
 	float m10{ 0 };
-	float m11{ 0 };
+	float m11{ 1 };
 	float m12{ 0 };
 	float m13{ 0 };
 	float m20{ 0 };
 	float m21{ 0 };
-	float m22{ 0 };
+	float m22{ 1 };
 	float m23{ 0 };
 	float m30{ 0 };
 	float m31{ 0 };
 	float m32{ 0 };
-	float m33{ 0 };
+	float m33{ 1 };
+
+	Matrix operator*(const Matrix& rhs);
+	Vector3 operator*(const Vector3& rhs);
+
+	static Matrix rotate(const Quaternion& qot);
+	static Matrix scale(const Vector3& s);
+	static Matrix translate(const Vector3& t);
+	static Matrix trs(const Vector3& pos, const Quaternion& q, const Vector3& s);
 
 private:
 };
