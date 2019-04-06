@@ -17,9 +17,9 @@ RenderProgram::RenderProgram(unsigned int* backBufferPixels, int width, int heig
 	vertex[4].position = Vector3(1, 0, 0);
 	vertex[5].position = Vector3(-1, 0, 0);
 
-	setObjectMatrix(Vector3(3.209, 0, 4.307), Quaternion::Euler(29.594, -24.01, 53.752), Vector3::one);
-	setCameraMatrix(Vector3(-5.95, 3.37, -13.48), Quaternion::Euler(-3.544, 53.982, 18.256));
-	setProjectionMatrix(60, (float)width / height, 0.3, 1000);
+	setObjectMatrix(Vector3(3.209f, 0, 4.307f), Quaternion::Euler(29.594f, -24.01f, 53.752f), Vector3::one);
+	setCameraMatrix(Vector3(-5.95f, 3.37f, -13.48f), Quaternion::Euler(-3.544f, 53.982f, 18.256f));
+	setProjectionMatrix(60, (float)width / height, 0.3f, 1000);
 
 	::setModelMatrix(matrix_WorldToObject);
 	::setViewMatrix(matrix_Camera);
@@ -64,5 +64,10 @@ void RenderProgram::setCameraMatrix(const Vector3& pos, const Quaternion& q)
 void RenderProgram::setProjectionMatrix(float fovy, float aspect, float zNear, float zFar)
 {
 	matrix_Projection = Matrix::projection(fovy, aspect, zNear, zFar);
+
+	//Unity在DirectX下回进行如下处理
+	matrix_Projection.m11 = -matrix_Projection.m11;
+	matrix_Projection.m22 = (-matrix_Projection.m22 - 1.0f) / 2.0f;
+	matrix_Projection.m23 = -matrix_Projection.m23 / 2.0f;
 }
 
