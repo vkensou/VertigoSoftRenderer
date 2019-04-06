@@ -17,11 +17,11 @@ RenderProgram::RenderProgram(unsigned int* backBufferPixels, int width, int heig
 	vertex[4].position = Vector3(1, 0, 0);
 	vertex[5].position = Vector3(-1, 0, 0);
 
-	setObjectMatrix(Vector3(3.209f, 0, 4.307f), Quaternion::Euler(29.594f, -24.01f, 53.752f), Vector3::one);
-	setCameraMatrix(Vector3(-5.95f, 3.37f, -13.48f), Quaternion::Euler(-3.544f, 53.982f, 18.256f));
-	setProjectionMatrix(60, (float)width / height, 0.3f, 1000);
+	setObjectMatrix(Vector3(7.698f, 5.773f, 0), Quaternion::Euler(0, 0, 0), Vector3::one);
+	setCameraMatrix(Vector3(0, 1, -10), Quaternion::Euler(0, 0, 0));
+	setProjectionMatrix(60, (float)width / height, 0.1f, 1500);
 
-	::setModelMatrix(matrix_WorldToObject);
+	::setModelMatrix(matrix_ObjectToWorld);
 	::setViewMatrix(matrix_Camera);
 	::setProjectionMatrix(matrix_Projection);
 }

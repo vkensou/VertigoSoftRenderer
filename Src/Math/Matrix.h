@@ -28,6 +28,7 @@ public:
 
 	Matrix operator*(const Matrix& rhs);
 	Vector3 operator*(const Vector3& rhs);
+	Vector3 perspectiveMultiply(const Vector3& rhs);
 	void invert();
 	Matrix getInvert();
 

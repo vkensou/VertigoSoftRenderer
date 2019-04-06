@@ -55,7 +55,7 @@ VertexInput vertexShader(Vertex &vo)
 {
 	VertexInput o;
 
-	o.position = matrix_MVP * vo.position;
+	o.position = matrix_MVP.perspectiveMultiply(vo.position);
 	o.normal = vo.normal;
 	o.texcoord = vo.texcoord;
 
@@ -75,7 +75,7 @@ bool cullBack(VertexInput *vertex)
 	Vector3 v1 = vertex[1].position - vertex[0].position;
 	Vector3 v2 = vertex[2].position - vertex[1].position;
 	auto n = cross(v1, v2);
-	return n.z < 0;
+	return n.z > 0;
 }
 
 void callVertexShader(Vertex *vo, int count)

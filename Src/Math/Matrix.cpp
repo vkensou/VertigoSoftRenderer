@@ -48,6 +48,33 @@ Vector3 Matrix::operator*(const Vector3& rhs)
 	return v;
 }
 
+Vector3 Matrix::perspectiveMultiply(const Vector3& rhs)
+{
+	Vector3 v;
+
+	v.x = m00 * rhs.x + m01 * rhs.y + m02 * rhs.z + m03;
+	v.y = m10 * rhs.x + m11 * rhs.y + m12 * rhs.z + m13;
+	v.z = m20 * rhs.x + m21 * rhs.y + m22 * rhs.z + m23;
+	float w = m30 * rhs.x + m31 * rhs.y + m32 * rhs.z + m33;
+
+	if (std::abs(w) > 1.0e-7f)
+	{
+		float invW = 1.0f / w;
+		v.x *= invW;
+		v.y *= invW;
+		v.z *= invW;
+	}
+	else
+	{
+		v.x	= 0;
+		v.y	= 0;
+		v.z	= 0;
+	}
+
+	return v;
+
+}
+
 Matrix Matrix::rotate(const Quaternion& qot)
 {
 	Matrix m;
