@@ -1,6 +1,13 @@
 #include "RenderPipeline.h"
 
 #include "Vertex.h"
+#include "Math/Matrix.h"
+
+static Matrix matrix_M;
+static Matrix matrix_V;
+static Matrix matrix_P;
+static Matrix matrix_MVP;
+
 
 //背面剔除，返回false说明被剔除
 bool cullBack(Vertex *vertex)
@@ -14,6 +21,30 @@ bool cullBack(Vertex *vertex)
 static unsigned int* target;
 static int width;
 static int height;
+
+void refreshMatrix_MVP()
+{
+	matrix_MVP = matrix_M * matrix_V * matrix_P;
+}
+
+void setModelMatrix(const Matrix& m)
+{
+	matrix_M = m;
+	refreshMatrix_MVP();
+}
+
+void setViewMatrix(const Matrix& m)
+{
+	matrix_V = m;
+	refreshMatrix_MVP();
+}
+
+void setProjectionMatrix(const Matrix& m)
+{
+	matrix_P = m;
+	refreshMatrix_MVP();
+}
+
 void setTarget(unsigned int* target, int width, int height)
 {
 	::target = target;
