@@ -17,7 +17,14 @@ RenderProgram::RenderProgram(unsigned int* backBufferPixels, int width, int heig
 	vertex[4].position = Vector3(1, 0, 0);
 	vertex[5].position = Vector3(-1, 0, 0);
 
-	setObjectMatrix(Vector3(0, 0, 0), Quaternion::Euler(0, -60, 0), Vector3::one);
+	vertex[0].color = Vector4(1, 0, 0, 1);
+	vertex[1].color = Vector4(0, 1, 0, 1);
+	vertex[2].color = Vector4(0, 0, 1, 1);
+	vertex[3].color = Vector4(1, 0, 0, 1);
+	vertex[4].color = Vector4(0, 1, 0, 1);
+	vertex[5].color = Vector4(0, 0, 1, 1);
+
+	setObjectMatrix(Vector3(0, 0, 0), Quaternion::Euler(0, 45, 0), Vector3::one);
 	setCameraMatrix(Vector3(0, 1, -10), Quaternion::Euler(0, 0, 0));
 	setProjectionMatrix(60, (float)width / height, 0.1f, 1500);
 
@@ -33,7 +40,7 @@ RenderProgram::~RenderProgram()
 
 void RenderProgram::render()
 {
-	setObjectMatrix(Vector3(0, 0, 0), Quaternion::Euler(0, 0, oy += oyspeed), Vector3::one);
+	setObjectMatrix(Vector3(0, 0, 0), Quaternion::Euler(0, oy += oyspeed, 0), Vector3::one);
 	::setModelMatrix(matrix_ObjectToWorld);
 	clear();
 	setTarget(backBuffer, width, height);

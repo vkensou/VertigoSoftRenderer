@@ -47,10 +47,23 @@ struct VertexInput
 {
 	Vector3 position;
 	Vector3 normal;
+	Vector4 color;
 	Vector4 texcoord;
 };
 VertexInput vi[3000];
 int vi_count = 0;
+
+VertexInput lerp(VertexInput &a, VertexInput &b, float t)
+{
+	VertexInput o;
+
+	o.position = lerp(a.position, b.position, t);
+	o.normal = lerp(a.normal, b.normal, t);
+	o.color = lerp(a.color, b.color, t);
+	o.texcoord = lerp(a.texcoord, b.texcoord, t);
+
+	return o;
+}
 
 VertexInput vertexShader(Vertex &vo)
 {
@@ -58,14 +71,15 @@ VertexInput vertexShader(Vertex &vo)
 
 	o.position = matrix_MVP.perspectiveMultiply(vo.position);
 	o.normal = vo.normal;
+	o.color = vo.color;
 	o.texcoord = vo.texcoord;
 
 	return o;
 }
 
-unsigned int pixelShader(VertexInput &in)
+Vector4 pixelShader(VertexInput &in)
 {
-	unsigned int col = 0xff000000;
+	Vector4 col = in.color;
 
 	return col;
 }
@@ -90,26 +104,41 @@ void callVertexShader(Vertex *vo, int count)
 	}
 }
 
-void callPixelShader(VertexInput &v)
-{
-
-}
-
-void drawPoint(int x, int y)
+inline void drawPoint(int x, int y, unsigned int color)
 {
 	y = height - y;
 	if (x >= 0 && x < width && y >= 0 && y < height)
-		target[y * width + x] = 0xffffffff;
+		target[y * width + x] = color;
 }
 
-void drawLine(int x0, int y0, int x1, int y1)
+void callPixelShader(int x, int y, VertexInput &v)
 {
+	auto col = pixelShader(v);
+	unsigned char r = col.x * 255;
+	unsigned char g = col.y * 255;
+	unsigned char b = col.z * 255;
+	unsigned char a = col.w * 255;
+	unsigned int color = (a << 24) | (r << 16) | (g << 8) | b;
+	drawPoint(x, y, color);
+}
 
+inline void drawLine(int x0, int x1, int y, VertexInput &v0, VertexInput &v1)
+{
+	int xr = x1 - x0;
+	for (int x = x0; x <= x1; ++x)
+	{
+		float f = xr != 0 ? float(x - x0) / xr : 0;
+		VertexInput v = lerp(v0, v1, f);
+		callPixelShader(x, y, v);
+	}
 }
 
 //Æ½µ×
 void drawTriangle1(int x0, int y0, int x1, int y1, int x2, int y2, VertexInput &v0, VertexInput &v1, VertexInput &v2)
 {
+	if (x1 > x2)
+		return drawTriangle1(x0, y0, x2, y2, x1, y1, v0, v2, v1);
+
 	int yr = y1 - y0;
 	int x1r = x1 - x0;
 	int x2r = x2 - x0;
@@ -118,20 +147,18 @@ void drawTriangle1(int x0, int y0, int x1, int y1, int x2, int y2, VertexInput &
 		float f = float(y - y0) / yr;
 		int xl = f * x1r + x0;
 		int xr = f * x2r + x0;
-		if (xl > xr)
-			std::swap(xl, xr);
-		for (int x = xl; x <= xr; ++x)
-		{
-			drawPoint(x, y);
-			//VertexInput v;
-			//callPixelShader(v);
-		}
+		VertexInput vl = lerp(v0, v1, f);
+		VertexInput vr = lerp(v0, v2, f);
+		drawLine(xl, xr, y, vl, vr);
 	}
 }
 
 //Æ½¶¥
 void drawTriangle2(int x0, int y0, int x1, int y1, int x2, int y2, VertexInput &v0, VertexInput &v1, VertexInput &v2)
 {
+	if (x1 > x2)
+		return drawTriangle2(x0, y0, x2, y2, x1, y1, v0, v2, v1);
+
 	int yr = y1 - y0;
 	int x1r = x1 - x0;
 	int x2r = x2 - x0;
@@ -140,14 +167,9 @@ void drawTriangle2(int x0, int y0, int x1, int y1, int x2, int y2, VertexInput &
 		float f = float(y - y0) / yr;
 		int xl = f * x1r + x0;
 		int xr = f * x2r + x0;
-		if (xl > xr)
-			std::swap(xl, xr);
-		for (int x = xl; x <= xr; ++x)
-		{
-			drawPoint(x, y);
-			//VertexInput v;
-			//callPixelShader(v);
-		}
+		VertexInput vl = lerp(v0, v1, f);
+		VertexInput vr = lerp(v0, v2, f);
+		drawLine(xl, xr, y, vl, vr);
 	}
 }
 
@@ -165,10 +187,9 @@ void drawTriangle3(int x0, int y0, int x1, int y1, int x2, int y2, VertexInput &
 		int xl = fl * xlr + x0;
 		float fr = float(y - y0) / yrr;
 		int xr = fr * xrr + x0;
-		//if (xl > xr)
-		//	std::swap(xl, xr);
-		for (int x = xl; x < xr; ++x)
-			drawPoint(x, y);
+		VertexInput vl = lerp(v0, v1, fl);
+		VertexInput vr = lerp(v0, v2, fr);
+		drawLine(xl, xr, y, vl, vr);
 	}
 
 	ylr = y2 - y1;
@@ -179,10 +200,9 @@ void drawTriangle3(int x0, int y0, int x1, int y1, int x2, int y2, VertexInput &
 		int xl = fl * xlr + x1;
 		float fr = float(y - y0) / yrr;
 		int xr = fr * xrr + x0;
-		//if (xl > xr)
-		//	std::swap(xl, xr);
-		for (int x = xl; x < xr; ++x)
-			drawPoint(x, y);
+		VertexInput vl = lerp(v1, v2, fl);
+		VertexInput vr = lerp(v0, v2, fr);
+		drawLine(xl, xr, y, vl, vr);
 	}
 }
 
@@ -200,10 +220,9 @@ void drawTriangle4(int x0, int y0, int x1, int y1, int x2, int y2, VertexInput &
 		int xl = fl * xlr + x0;
 		float fr = float(y - y0) / yrr;
 		int xr = fr * xrr + x0;
-		//if (xl > xr)
-		//	std::swap(xl, xr);
-		for (int x = xl; x < xr; ++x)
-			drawPoint(x, y);
+		VertexInput vl = lerp(v0, v2, fl);
+		VertexInput vr = lerp(v0, v1, fr);
+		drawLine(xl, xr, y, vl, vr);
 	}
 
 	yrr = y2 - y1;
@@ -214,10 +233,9 @@ void drawTriangle4(int x0, int y0, int x1, int y1, int x2, int y2, VertexInput &
 		int xl = fl * xlr + x0;
 		float fr = float(y - y1) / yrr;
 		int xr = fr * xrr + x1;
-		//if (xl > xr)
-		//	std::swap(xl, xr);
-		for (int x = xl; x < xr; ++x)
-			drawPoint(x, y);
+		VertexInput vl = lerp(v0, v2, fl);
+		VertexInput vr = lerp(v1, v2, fr);
+		drawLine(xl, xr, y, vl, vr);
 	}
 }
 
@@ -226,14 +244,12 @@ void rasterizeTriangle(VertexInput *vertex)
 	auto& v0 = vertex[0];
 	auto& v1 = vertex[1];
 	auto& v2 = vertex[2];
-	int halfWidth = width / 2;
-	int halfHeight = height / 2;
-	int x0 = (v0.position.x + 1) * halfWidth;
-	int y0 = (v0.position.y + 1) * halfHeight;
-	int x1 = (v1.position.x + 1) * halfWidth;
-	int y1 = (v1.position.y + 1) * halfHeight;
-	int x2 = (v2.position.x + 1) * halfWidth;
-	int y2 = (v2.position.y + 1) * halfHeight;
+	int x0 = (v0.position.x * 0.5f + 0.5f) * width;
+	int y0 = (v0.position.y * 0.5f + 0.5f) * height;
+	int x1 = (v1.position.x * 0.5f + 0.5f) * width;
+	int y1 = (v1.position.y * 0.5f + 0.5f) * height;
+	int x2 = (v2.position.x * 0.5f + 0.5f) * width;
+	int y2 = (v2.position.y * 0.5f + 0.5f) * height;
 
 	if (y0 == y1)
 	{

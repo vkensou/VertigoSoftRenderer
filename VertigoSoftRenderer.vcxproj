@@ -121,7 +121,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>...;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -155,6 +155,7 @@
     <ClInclude Include="Src\App\RenderProgram.h" />
     <ClInclude Include="Src\Math\Matrix.h" />
     <ClInclude Include="Src\Math\Quaternion.h" />
+    <ClInclude Include="Src\Math\Utility.h" />
     <ClInclude Include="Src\Math\Vector3.h" />
     <ClInclude Include="Src\Math\Vector4.h" />
     <ClInclude Include="Src\Render\RenderPipeline.h" />

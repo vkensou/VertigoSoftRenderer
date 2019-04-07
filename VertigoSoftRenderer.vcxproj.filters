@@ -63,6 +63,9 @@
     <ClInclude Include="Src\Render\RenderPipeline.h">
       <Filter>Src\Render</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Math\Utility.h">
+      <Filter>Src\Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="VertigoSoftRenderer.cpp">

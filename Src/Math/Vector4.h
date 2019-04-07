@@ -10,3 +10,5 @@ public:
 
 private:
 };
+
+Vector4 lerp(Vector4 &a, Vector4 &b, float t);
