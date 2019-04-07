@@ -25,6 +25,8 @@ private:
 	unsigned int clearColor;
 	Vertex *vertex;
 
+	float oy = 0, oyspeed = 0.5f;
+
 	Matrix matrix_WorldToObject;
 	Matrix matrix_ObjectToWorld;
 	Matrix matrix_Camera;
