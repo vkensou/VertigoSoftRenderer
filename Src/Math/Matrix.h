@@ -42,3 +42,4 @@ public:
 private:
 };
 
+Vector3 operator*(const Vector3 &lhs, const Matrix &rhs);

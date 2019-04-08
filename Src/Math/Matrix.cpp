@@ -265,3 +265,14 @@ Matrix Matrix::getInvert()
 	m.invert();
 	return m;
 }
+
+Vector3 operator*(const Vector3 &lhs, const Matrix &rhs)
+{
+	Vector3 v;
+
+	v.x = lhs.x * rhs.m00 + lhs.y * rhs.m10 + lhs.z * rhs.m20;
+	v.y = lhs.x * rhs.m01 + lhs.y * rhs.m11 + lhs.z * rhs.m21;
+	v.z = lhs.x * rhs.m02 + lhs.y * rhs.m12 + lhs.z * rhs.m22;
+
+	return v;
+}
