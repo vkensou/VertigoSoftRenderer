@@ -22,6 +22,9 @@
     <Filter Include="Src\Math">
       <UniqueIdentifier>{738b5403-d16e-44d3-9583-741d0ec90457}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Render">
+      <UniqueIdentifier>{d257894c-03ac-4a0e-a51a-b61e88245228}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header.h">
@@ -51,6 +54,18 @@
     <ClInclude Include="Src\Math\Vector4.h">
       <Filter>Src\Math</Filter>
     </ClInclude>
+    <ClInclude Include="Src\App\RenderProgram.h">
+      <Filter>Src\App</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Render\Vertex.h">
+      <Filter>Src\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Render\RenderPipeline.h">
+      <Filter>Src\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Math\Utility.h">
+      <Filter>Src\Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="VertigoSoftRenderer.cpp">
@@ -70,6 +85,12 @@
     </ClCompile>
     <ClCompile Include="Src\Math\Vector4.cpp">
       <Filter>Src\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\App\RenderProgram.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Render\RenderPipeline.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -28,12 +28,18 @@ public:
 
 	Matrix operator*(const Matrix& rhs);
 	Vector3 operator*(const Vector3& rhs);
+	Vector3 perspectiveMultiply(const Vector3& rhs);
+	void invert();
+	Matrix getInvert();
 
 	static Matrix rotate(const Quaternion& qot);
 	static Matrix scale(const Vector3& s);
 	static Matrix translate(const Vector3& t);
 	static Matrix trs(const Vector3& pos, const Quaternion& q, const Vector3& s);
+	static Matrix projection(float left, float right, float bottom, float top, float near, float far);
+	static Matrix projection(float fovy, float aspect, float zNear, float zFar);
 
 private:
 };
 
+Vector3 operator*(const Vector3 &lhs, const Matrix &rhs);

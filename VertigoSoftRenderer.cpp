@@ -12,6 +12,7 @@ HINSTANCE hInst;                                // 当前实例
 HWND g_hWnd;
 WCHAR szTitle[MAX_LOADSTRING];                  // 标题栏文本
 WCHAR szWindowClass[MAX_LOADSTRING];            // 主窗口类名
+bool g_quit = false;
 
 // 此代码模块中包含的函数的前向声明:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -44,19 +45,24 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     MSG msg;
 
-    // 主消息循环:
-    while (GetMessage(&msg, nullptr, 0, 0))
-    {
-        if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
-        {
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
-        }
-		
-		auto hdc = GetDC(g_hWnd);
-		update(hdc);
-		ReleaseDC(g_hWnd, hdc);
-    }
+	while (!g_quit)
+	{
+		while (!::PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE))
+		{
+			auto hdc = GetDC(g_hWnd);
+			update(hdc);
+			ReleaseDC(g_hWnd, hdc);
+		}
+		// 主消息循环:
+		if (GetMessage(&msg, nullptr, 0, 0))
+		{
+			if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
+			{
+				TranslateMessage(&msg);
+				DispatchMessage(&msg);
+			}
+		}
+	}
 
 	quit();
 
@@ -164,6 +170,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         break;
     case WM_DESTROY:
         PostQuitMessage(0);
+		g_quit = true;
         break;
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);

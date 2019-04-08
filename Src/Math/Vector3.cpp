@@ -1,5 +1,6 @@
 #include "Vector3.h"
 #include <cmath>
+#include "Utility.h"
 
 Vector3::Vector3()
 {
@@ -62,4 +63,15 @@ Vector3 cross(const Vector3& lhs, const Vector3& rhs)
 	float _y = lhs.z * rhs.x - lhs.x * rhs.z;
 	float _z = lhs.x * rhs.y - lhs.y * rhs.x;
 	return Vector3(_x, _y, _z);
+}
+
+Vector3 lerp(Vector3 &a, Vector3 &b, float t)
+{
+	Vector3 o;
+
+	o.x = lerp(a.x, b.x, t);
+	o.y = lerp(a.y, b.y, t);
+	o.z = lerp(a.z, b.z, t);
+
+	return o;
 }
