@@ -13,6 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Src">
+      <UniqueIdentifier>{5025d1af-c313-44c3-9501-90da74728c17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\App">
+      <UniqueIdentifier>{f7085684-c007-417b-afd1-050ac1aa54d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Math">
+      <UniqueIdentifier>{738b5403-d16e-44d3-9583-741d0ec90457}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Render">
+      <UniqueIdentifier>{d257894c-03ac-4a0e-a51a-b61e88245228}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header.h">
@@ -27,9 +39,57 @@
     <ClInclude Include="VertigoSoftRenderer.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Src\App\App.h">
+      <Filter>Src\App</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Math\Quaternion.h">
+      <Filter>Src\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Math\Vector3.h">
+      <Filter>Src\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Math\Matrix.h">
+      <Filter>Src\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Math\Vector4.h">
+      <Filter>Src\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\App\RenderProgram.h">
+      <Filter>Src\App</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Render\Vertex.h">
+      <Filter>Src\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Render\RenderPipeline.h">
+      <Filter>Src\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Math\Utility.h">
+      <Filter>Src\Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="VertigoSoftRenderer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\App\App.cpp">
+      <Filter>Src\App</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Math\Quaternion.cpp">
+      <Filter>Src\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Math\Vector3.cpp">
+      <Filter>Src\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Math\Matrix.cpp">
+      <Filter>Src\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Math\Vector4.cpp">
+      <Filter>Src\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\App\RenderProgram.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Render\RenderPipeline.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

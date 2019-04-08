@@ -23,7 +23,7 @@
     <ProjectGuid>{5AF8399C-CDAC-4881-8A4B-C34FE7D98CAD}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>VertigoSoftRenderer</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -88,8 +88,9 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -102,7 +103,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -120,6 +121,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -136,7 +138,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -149,10 +151,26 @@
   <ItemGroup>
     <ClInclude Include="header.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Src\App\App.h" />
+    <ClInclude Include="Src\App\RenderProgram.h" />
+    <ClInclude Include="Src\Math\Matrix.h" />
+    <ClInclude Include="Src\Math\Quaternion.h" />
+    <ClInclude Include="Src\Math\Utility.h" />
+    <ClInclude Include="Src\Math\Vector3.h" />
+    <ClInclude Include="Src\Math\Vector4.h" />
+    <ClInclude Include="Src\Render\RenderPipeline.h" />
+    <ClInclude Include="Src\Render\Vertex.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="VertigoSoftRenderer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\App\App.cpp" />
+    <ClCompile Include="Src\App\RenderProgram.cpp" />
+    <ClCompile Include="Src\Math\Matrix.cpp" />
+    <ClCompile Include="Src\Math\Quaternion.cpp" />
+    <ClCompile Include="Src\Math\Vector3.cpp" />
+    <ClCompile Include="Src\Math\Vector4.cpp" />
+    <ClCompile Include="Src\Render\RenderPipeline.cpp" />
     <ClCompile Include="VertigoSoftRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>

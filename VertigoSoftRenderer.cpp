@@ -3,13 +3,16 @@
 
 #include "header.h"
 #include "VertigoSoftRenderer.h"
+#include "Src/App/App.h"
 
 #define MAX_LOADSTRING 100
 
 // 全局变量:
 HINSTANCE hInst;                                // 当前实例
+HWND g_hWnd;
 WCHAR szTitle[MAX_LOADSTRING];                  // 标题栏文本
 WCHAR szWindowClass[MAX_LOADSTRING];            // 主窗口类名
+bool g_quit = false;
 
 // 此代码模块中包含的函数的前向声明:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -42,15 +45,26 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     MSG msg;
 
-    // 主消息循环:
-    while (GetMessage(&msg, nullptr, 0, 0))
-    {
-        if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
-        {
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
-        }
-    }
+	while (!g_quit)
+	{
+		while (!::PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE))
+		{
+			auto hdc = GetDC(g_hWnd);
+			update(hdc);
+			ReleaseDC(g_hWnd, hdc);
+		}
+		// 主消息循环:
+		if (GetMessage(&msg, nullptr, 0, 0))
+		{
+			if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
+			{
+				TranslateMessage(&msg);
+				DispatchMessage(&msg);
+			}
+		}
+	}
+
+	quit();
 
     return (int) msg.wParam;
 }
@@ -104,7 +118,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    {
       return FALSE;
    }
-
+   g_hWnd = hWnd;
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
 
@@ -125,6 +139,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
+	case WM_CREATE:
+		init(hInst, hWnd);
+		break;
     case WM_COMMAND:
         {
             int wmId = LOWORD(wParam);
@@ -147,11 +164,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hWnd, &ps);
             // TODO: 在此处添加使用 hdc 的任何绘图代码...
+			update(hdc);
             EndPaint(hWnd, &ps);
         }
         break;
     case WM_DESTROY:
         PostQuitMessage(0);
+		g_quit = true;
         break;
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);
