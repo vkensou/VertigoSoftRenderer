@@ -4,6 +4,7 @@ struct Vertex;
 class Matrix;
 
 void setModelMatrix(const Matrix& m);
+void setModelIMatrix(const Matrix& m);
 void setViewMatrix(const Matrix& m);
 void setProjectionMatrix(const Matrix& m);
 

@@ -5,6 +5,7 @@
 #include <algorithm>
 
 static Matrix matrix_M;
+static Matrix matrix_M_I;
 static Matrix matrix_V;
 static Matrix matrix_P;
 static Matrix matrix_MVP;
@@ -22,6 +23,11 @@ void setModelMatrix(const Matrix& m)
 {
 	matrix_M = m;
 	refreshMatrix_MVP();
+}
+
+void setModelIMatrix(const Matrix& m)
+{
+	matrix_M_I = m;
 }
 
 void setViewMatrix(const Matrix& m)
@@ -70,7 +76,8 @@ VertexInput vertexShader(Vertex &vo)
 	VertexInput o;
 
 	o.position = matrix_MVP.perspectiveMultiply(vo.position);
-	o.normal = vo.normal;
+	o.normal = vo.normal * matrix_M_I;
+	o.normal.normalize();
 	o.color = vo.color;
 	o.texcoord = vo.texcoord;
 
@@ -79,6 +86,7 @@ VertexInput vertexShader(Vertex &vo)
 
 Vector4 pixelShader(VertexInput &in)
 {
+	in.normal.normalize();
 	Vector4 col = in.color;
 
 	return col;

@@ -24,11 +24,19 @@ RenderProgram::RenderProgram(unsigned int* backBufferPixels, int width, int heig
 	vertex[4].color = Vector4(0, 1, 0, 1);
 	vertex[5].color = Vector4(0, 0, 1, 1);
 
+	vertex[0].normal = Vector3(0, 0, 1);
+	vertex[1].normal = Vector3(0, 0, 1);
+	vertex[2].normal = Vector3(0, 0, 1);
+	vertex[3].normal = Vector3(0, 0, 1);
+	vertex[4].normal = Vector3(0, 0, 1);
+	vertex[5].normal = Vector3(0, 0, 1);
+
 	setObjectMatrix(Vector3(0, 0, 0), Quaternion::Euler(0, 45, 0), Vector3::one);
 	setCameraMatrix(Vector3(0, 1, -10), Quaternion::Euler(0, 0, 0));
 	setProjectionMatrix(60, (float)width / height, 0.1f, 1500);
 
 	::setModelMatrix(matrix_ObjectToWorld);
+	::setModelIMatrix(matrix_WorldToObject);
 	::setViewMatrix(matrix_Camera);
 	::setProjectionMatrix(matrix_Projection);
 }
@@ -42,6 +50,7 @@ void RenderProgram::render()
 {
 	setObjectMatrix(Vector3(0, 0, 0), Quaternion::Euler(0, oy += oyspeed, 0), Vector3::one);
 	::setModelMatrix(matrix_ObjectToWorld);
+	::setModelIMatrix(matrix_WorldToObject);
 	clear();
 	setTarget(backBuffer, width, height);
 	drawTriangle(vertex, 6);
